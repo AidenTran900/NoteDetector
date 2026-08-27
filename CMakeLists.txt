@@ -12,7 +12,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 if(WIN32)
     add_definitions(-DWIN32 -D__WINDOWS_DS__)
-    set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLFW")
+    set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries/GLFW")
     set(GLFW_INCLUDE_DIR "${GLFW_DIR}/include")
 
     if(MINGW)
@@ -30,7 +30,7 @@ elseif(UNIX AND NOT APPLE)
 
     if(NOT GLFW_FOUND)
         message(STATUS "GLFW not found via pkg-config, using bundled version")
-        set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLFW")
+        set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries/GLFW")
         set(GLFW_INCLUDE_DIR "${GLFW_DIR}/include")
         include_directories(${GLFW_INCLUDE_DIR})
 
@@ -54,7 +54,7 @@ elseif(APPLE)
 
     if(NOT GLFW_FOUND)
         message(STATUS "GLFW not found via pkg-config, using bundled version")
-        set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/GLFW")
+        set(GLFW_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries/GLFW")
         set(GLFW_INCLUDE_DIR "${GLFW_DIR}/include")
         include_directories(${GLFW_INCLUDE_DIR})
     endif()
@@ -66,33 +66,30 @@ elseif(APPLE)
     set(PLATFORM_LIBS ${COREAUDIO_LIBRARY} ${COREMIDI_LIBRARY} ${COREFOUNDATION_LIBRARY} pthread)
 endif()
 
-set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/imgui")
-set(IMPLOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/implot")
-set(RTAUDIO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/rtAudio")
-set(PIANO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pianoVisual")
-set(FILEDIALOG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/filedialog")
+set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+set(LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libraries")
+set(IMGUI_DIR "${LIBRARY_DIR}/imgui")
+set(IMPLOT_DIR "${LIBRARY_DIR}/implot")
+set(RTAUDIO_DIR "${LIBRARY_DIR}/rtAudio")
+set(PIANO_DIR "${SRC_DIR}/piano")
+set(FILEDIALOG_DIR "${LIBRARY_DIR}/filedialog")
 
 file(GLOB IMGUI_SOURCES "${IMGUI_DIR}/*.cpp")
 file(GLOB IMPLOT_SOURCES "${IMPLOT_DIR}/*.cpp")
 file(GLOB RTAUDIO_SOURCES "${RTAUDIO_DIR}/*.cpp")
-file(GLOB PIANO_SOURCES "${PIANO_DIR}/*.cpp")
+file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS "${SRC_DIR}/*.cpp")
 
 set(SOURCES
-    main.cpp
-    AudioAnalyzer.cpp
-    RealtimeAudioRecorder.cpp
-    fourierTrans/fourier.cpp
-    peakDetector.cpp
-    imageLoader/imageLoader.cpp
+    ${APP_SOURCES}
     ${FILEDIALOG_DIR}/tinyfiledialogs.c
     ${IMGUI_SOURCES}
     ${IMPLOT_SOURCES}
     ${RTAUDIO_SOURCES}
-    ${PIANO_SOURCES}
 )
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${SRC_DIR}
+    ${LIBRARY_DIR}
     ${IMGUI_DIR}
     ${IMPLOT_DIR}
     ${RTAUDIO_DIR}
