@@ -1,7 +1,6 @@
+#include "imageLoader.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-#include "../GLFW/include/glfw3.h" 
-#include "../imgui/imgui.h"
 
 GLuint LoadTextureFromFile(const char* filename, int* out_width, int* out_height) {
     int width, height, channels;

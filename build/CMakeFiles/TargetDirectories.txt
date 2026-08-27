@@ -1,0 +1,3 @@
+/home/atran/Documents/Projects/NoteDetector/build/CMakeFiles/gui.dir
+/home/atran/Documents/Projects/NoteDetector/build/CMakeFiles/edit_cache.dir
+/home/atran/Documents/Projects/NoteDetector/build/CMakeFiles/rebuild_cache.dir
